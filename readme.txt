@@ -1,0 +1,1 @@
+Basic factory function for creating user defined dataclasses with static type checking.

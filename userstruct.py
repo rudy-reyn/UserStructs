@@ -1,8 +1,8 @@
 from collections.abc import Iterable
-from pprint import pprint
 
-def UserStruct(name_, **params):
-    for attr, dtype in params.items():
+def UserStruct(name_, **params) -> type:
+    """Class factory for creating user defined dataclasses that allow for static type checking."""
+
         if not isinstance(attr, str) or not attr.isidentifier():
             raise TypeError(f"Invalid attribute name for '{attr}'")
         if isinstance(dtype, Iterable):
@@ -14,10 +14,10 @@ def UserStruct(name_, **params):
                 raise TypeError(f"Invalid type specified for attribute '{attr}', got '{dtype}'")
 
     class UserStruct_:
-        name = name_
-        indexes = dict(enumerate(params.keys()))
-        nparams = len(params)
-        dtypes = params.copy()
+        name: str = name_
+        indexes: dict = dict(enumerate(params.keys()))
+        nparams: int = len(params)
+        dtypes: dict = params.copy()
 
         def __init__(self, *args, **kwargs):
             self.data = {}
@@ -55,9 +55,8 @@ def UserStruct(name_, **params):
                 object.__setattr__(self, attr, value)
 
         @staticmethod
-        def datatypes():
+        def datatypes() -> dict:
             return UserStruct_.dtypes.copy()
-
 
         def __iter__(self):
             yield from self.data.values()
