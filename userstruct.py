@@ -2,7 +2,7 @@ from collections.abc import Iterable
 
 def UserStruct(name_, **params) -> type:
     """Class factory for creating user defined dataclasses that allow for static type checking."""
-
+    for attr, dtype in params.items():
         if not isinstance(attr, str) or not attr.isidentifier():
             raise TypeError(f"Invalid attribute name for '{attr}'")
         if isinstance(dtype, Iterable):
